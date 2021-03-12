@@ -6,7 +6,7 @@
 
 ## 安装
 ```
-npm install @xunlei/vue-context-menu
+npm install @shuaninfo/vue-context-menu
 ```
 
 ## 在线Demo
@@ -20,7 +20,7 @@ https://shuaninfo.github.io/vue-context-menu/demo/dist
 #### 方式1 利用插件方式全局注册
 
 ```javascript
-import VueContextMenu from '@xunlei/vue-context-menu'
+import VueContextMenu from '@shuaninfo/vue-context-menu'
 import Vue from 'vue'
 
 Vue.use(VueContextMenu)
@@ -28,7 +28,7 @@ Vue.use(VueContextMenu)
 #### 方式2 局部注册
 
 ```javascript
-import { component as VueContextMenu } from '@xunlei/vue-context-menu'
+import { component as VueContextMenu } from '@shuaninfo/vue-context-menu'
 
 export default {
   // ...
