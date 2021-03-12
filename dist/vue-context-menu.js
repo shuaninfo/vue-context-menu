@@ -93,13 +93,13 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/benzhao/Sites/@xunlei/vue-context-menu/src/VueContextMenu.vue"
+Component.options.__file = "E:\\shu_an\\vue-context-menu\\src\\VueContextMenu.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VueContextMenu.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -131,6 +131,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'context-menu',
@@ -138,9 +141,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       triggerShowFn: function triggerShowFn() {},
       triggerHideFn: function triggerHideFn() {},
-      x: null,
-      y: null,
-      style: {},
+      coordinate: {
+        x: null,
+        y: null
+      },
+      // 右键菜单大小，width、height
+      size: {},
+
+      // style: {},
+
       binded: false
     };
   },
@@ -149,13 +158,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     target: null,
     show: Boolean
   },
+  computed: {
+    style: function style() {
+
+      // 屏幕的大小
+      var _document$body = document.body,
+          clientWidth = _document$body.clientWidth,
+          clientHeight = _document$body.clientHeight;
+      // 鼠标右键坐标
+
+      var _coordinate = this.coordinate,
+          x = _coordinate.x,
+          y = _coordinate.y;
+      // 获取右键菜单的宽、高
+
+      var _size = this.size,
+          width = _size.width,
+          height = _size.height;
+
+      // 判断右侧是否可以显示，如果不可以则向左显示
+
+      var left = x + width > clientWidth && clientWidth >= 2 * width ? x - width : x;
+      // 判断是否下方是否可以显示，如果不可以则向上显示
+      var top = y + height > clientHeight && clientHeight >= 2 * height ? y - height : y;
+
+      return {
+        'visibility': this.show ? 'visible' : 'hidden',
+        'left': left + 'px',
+        'top': top + 'px'
+      };
+    }
+  },
   mounted: function mounted() {
     this.bindEvents();
+
+    // console.log('大小：',this.$refs.selfContextMenu.offsetHeight)
+    this.size = {
+      width: this.$refs.selfContextMenu.offsetWidth,
+      height: this.$refs.selfContextMenu.offsetHeight
+    };
   },
 
   watch: {
-    show: function show(_show) {
-      if (_show) {
+    show: function show(v) {
+      if (v) {
         this.bindHideEvents();
       } else {
         this.unbindHideEvents();
@@ -173,6 +219,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$nextTick(function () {
         if (!_this.target || _this.binded) return;
         _this.triggerShowFn = _this.contextMenuHandler.bind(_this);
+        // 右键事件
         _this.target.addEventListener('contextmenu', _this.triggerShowFn);
         _this.binded = true;
       });
@@ -209,20 +256,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     // 右键事件事件处理
     contextMenuHandler: function contextMenuHandler(e) {
-      this.x = e.clientX;
-      this.y = e.clientY;
-      this.layout();
-      this.$emit('update:show', true);
-      e.preventDefault();
-    },
-
-
-    // 布局
-    layout: function layout() {
-      this.style = {
-        left: this.x + 'px',
-        top: this.y + 'px'
+      this.coordinate = {
+        x: e.clientX,
+        y: e.clientY
       };
+      this.$emit('update:show', true);
+      this.$emit('action', e);
+      e.preventDefault();
     }
   }
 });
@@ -330,12 +370,7 @@ module.exports = function normalizeComponent (
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show),
-      expression: "show"
-    }],
+    ref: "selfContextMenu",
     staticStyle: {
       "display": "block"
     },
@@ -354,7 +389,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6f0575c0", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-6f0575c0", module.exports)
   }
 }
 

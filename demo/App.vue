@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <img ref="logo"src="./assets/logo.png">
+    <img ref="logo" src="./assets/logo.png">
     <context-menu class="right-menu" 
       :target="contextMenuTarget" 
       :show="contextMenuVisible" 
-      @update:show="(show) => contextMenuVisible = show">
+      @update:show="(show) => contextMenuVisible = show"
+      @action="onAction">
       <a href="javascript:;" @click="copyMsg">复制</a>
       <a href="javascript:;" @click="quoteMsg">引用</a>
       <a href="javascript:;" @click="deleteMsg">删除</a>
@@ -13,6 +14,9 @@
     <h1>Vue Context Menu</h1>
 
     <h3>右键体验</h3>
+    <div style="width: 100px; height: 200px;color: white; background-color: red;">
+
+    </div>
   </div>
 </template>
 
@@ -26,6 +30,9 @@ export default {
     }
   },
   methods: {
+    onAction(e){
+      console.log('右键点击：', e)
+    },
     copyMsg () {
       alert('copy')
       this.contextMenuVisible = false
@@ -70,7 +77,7 @@ a {
   border: solid 1px rgba(0, 0, 0, .2);
   border-radius: 3px;
   z-index: 999;
-  display: none;
+  visibility: hidden;
 }
 .right-menu a {
   width: 75px;

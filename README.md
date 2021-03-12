@@ -11,7 +11,7 @@ npm install @xunlei/vue-context-menu
 
 ## 在线Demo
 
-https://xunleif2e.github.io/vue-context-menu/demo/dist
+https://shuaninfo.github.io/vue-context-menu/demo/dist
 
 ## 使用
 
@@ -67,9 +67,11 @@ export default {
 
 ## Events
 
-| 事件名                    | 说明  | 事件参数
+| 事件名                    | 说明  | 事件参数 |
 |-------------------------|-------|------|
 | update:show | 右键菜单显示/隐藏时触发  | 是否显示 |
+| action | 右键点击事件 | event |
+
 
 
 ## 注意
@@ -80,9 +82,11 @@ export default {
 
 
 ## ChangeLog
+- [1.1.0] 2021年3月12日
+  - 在网页右下方点击右键，菜单向左上显示
+- action右键点击事件
 - [1.0.1] 2017-07-10
   - 修复 target 为空时可能出错的bug
-
 - [1.0.0] 2017-06-23
   - 实现右键菜单基本功能
 
@@ -109,4 +113,4 @@ npm run build:demo
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2017 赵兵
+Copyright (c) 2021年3月12日 傅长路
